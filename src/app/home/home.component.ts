@@ -11,8 +11,8 @@ import { DataService } from '../data.service';
 export class HomeComponent implements OnInit {
 
   itemCount: number;
-  btnText: string = 'Add an item';
-  goalText: string = 'life goal...';
+  btnText: String = 'Add an item';
+  goalText: String = 'life goal...';
   goals = [];
 
   constructor(private _data: DataService) { }
@@ -24,9 +24,17 @@ export class HomeComponent implements OnInit {
   }
 
   addItem(): void {
-    this.goals.push(this.goalText);
+    if (this.goalText !== '') {
+      this.goals.push(this.goalText);
+      this.itemCount = this.goals.length;
+      this.goalText = '';
+      this._data.changeGoal(this.goals);
+    }
+  }
+
+  deleteItem(i: number): void {
+    this.goals.splice(i, 1);
     this.itemCount = this.goals.length;
-    this.goalText = '';
     this._data.changeGoal(this.goals);
   }
 
